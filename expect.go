@@ -67,6 +67,15 @@ func (s *Status) Error() string {
 // Option represents one Expecter option.
 type Option func(*GExpect) Option
 
+// Dir changes the working directory of the command.
+func Dir(p string) Option {
+	return func(e *GExpect) Option {
+		prev := e.cmd.Dir
+		e.cmd.Dir = p
+		return Dir(prev)
+	}
+}
+
 // CheckDuration changes the default duration checking for new incoming data.
 func CheckDuration(d time.Duration) Option {
 	return func(e *GExpect) Option {
